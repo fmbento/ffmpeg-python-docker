@@ -102,26 +102,8 @@ RUN cd /usr/local/bin \
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 19.0.3
 
-RUN set -ex; \
-	\
-	apk add --no-cache --virtual .fetch-deps libressl; \
-	\
-	wget -O get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
-	\
-	apk del .fetch-deps; \
-	\
-	find /usr/local -depth \
-		\( \
-			\( -type d -a \( -name test -o -name tests \) \) \
-			-o \
-			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
-		\) -exec rm -rf '{}' +; \
-	rm -f get-pip.py
-
 # add python3-dev
 RUN apk add python3-dev
-
-
-
-ENTRYPOINT    []
-CMD           ["python"]
+RUN apk upgrade --update && apk add --no-cache python3 python3-dev gcc gfortran freetype-dev musl-dev libpng-dev g++ lapack-dev
+RUN pip3 install --upgrade pip
+RUN pip3 install virtualenv
