@@ -110,13 +110,6 @@ RUN set -ex; \
 	\
 	apk del .fetch-deps; \
 	\
-	python get-pip.py \
-		--disable-pip-version-check \
-		--no-cache-dir \
-		"pip==$PYTHON_PIP_VERSION" \
-	; \
-	pip --version; \
-	\
 	find /usr/local -depth \
 		\( \
 			\( -type d -a \( -name test -o -name tests \) \) \
